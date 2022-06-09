@@ -1,0 +1,104 @@
+За решаването на тази задача не е позволено използването на вградени функции за пресмятане на математически функции
+
+Мими има нужда от помощ да разбере колко подаръка може да си позволи.
+
+След няколко тежки седмици решаване на задачи в Hackerrank, Мими от ФМИ видяла, че за всяка решена задача получава точки в сайта. Тези точки можело да се разменят за разнообрани подаръци като тениски, чаши и стикери. Във всеки даден момент е достъпен само един подарък, който струва колкото най-голямия точен куб(число, чийто корен трети е цяло положително число. Пример 27 е точен куб) по-малък или равен на сегашните ти точки. Колко подаръка може да си вземе Мими най-много, ако изхaрчи всичките си точки.
+
+Input Format
+
+Вход: n - броя на точките на Мими
+
+Constraints
+
+0 < n < 8*10^18
+
+Output Format
+
+Едно цяло положително число - броя подаръци, които Мими може да си позволи
+
+Пример:
+
+Input: 23 Output: 9
+
+Пояснение: Ако Мими има 23 точки, то подаръка, който ще може да си купи ще струва 8. След покупката и ще остане с 15 точки. Отново е длъжна да си купи подарък, който струва 8 точки. Тя ще остане с 7 точки и ще е длъжна да си купи 7 подаръка за по 1 точка => общо 9 подаръка.
+
+Input: 176 Output: 5
+
+Sample Input 0
+
+134
+Sample Output 0
+
+3
+
+
+
+#include <cmath>
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+double abs( long double n, long double mid)
+{
+    if (n > (mid*mid*mid))
+        return (n-(mid*mid*mid));
+    else
+        return ((mid*mid*mid) - n);
+}
+ 
+
+double cubicRoot(long n)
+{
+   
+    double start = 0, end = n;
+ 
+   
+    double epsilon = 0.0000001;
+ 
+    while (true)
+    {
+        double mid = (start + end)/2;
+        double error = abs(n, mid);
+ 
+       
+        if (error <= epsilon)
+            return mid;
+ 
+        if ((mid*mid*mid) > n)
+            end = mid;
+ 
+        
+        else
+            start = mid;
+    }
+}
+ 
+
+
+
+    
+
+ 
+
+
+
+int main()
+{long points;
+ cin>>points;
+ long i= floor(cubicRoot(points));
+ points-=i*i*i;
+ int br=1;
+ while(points!=0){
+    if(i*i*i<=points){
+        br++;
+        points-=i*i*i;
+    } 
+     else i--;
+     
+     
+ }
+ cout<<br;
+ 
+    return 0;
+}
