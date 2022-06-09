@@ -1,0 +1,262 @@
+Имате дадено двоично дърво (BST) за търсене с  елемента и цяло число . Изтрийте -тия най-голям елемент и изведете стойностите на дървото подредени по нива от дясно на ляво (level order). Ако изтритият елемент има два наследника, елементът заемащ мястото на изтрития е най-лявото листо в дясното му поддърво.
+
+Иска се да изведете първо корена после върховете на ниво 1 от ляво на дясно и после върховете от ниво 2 от ляво на дясно и тн.
+
+Input Format
+
+На първия ред от стандартният вход се въвеждат  и .
+
+Следват  на брой цели числа  - елементите, които трябва да се добавят в дървото. Родителят на елементa  е .
+
+Върхът, който съдържа стойността на индекс  в масива е родител на върховете със стойности съответно на индекси  и 
+
+Constraints
+
+
+
+Output Format
+
+Изведете  цели числа - останалите елементи в дървото, след премахването на -тия най-голям.
+
+Sample Input 0
+
+5 1
+4 2 7 1 3
+Sample Output 0
+
+4 2 1 3
+Explanation 0
+
+            4
+           / \
+          2   7
+         / \
+        1   3
+1-вият най-голям елемент е 7 => след изтриването му дървото изглежда така:
+
+            4
+           / 
+          2   
+         / \
+        1   3
+Sample Input 1
+
+6 5
+10 8 12 7 9 11
+Sample Output 1
+
+10 9 12 7 11
+Explanation 1
+
+            10
+           /  \
+          8    12
+         / \   /
+        7   9 11
+5-тият най-голям елемент е 8 => след изтриването му дървото изглежда така:
+
+            10
+           /  \
+          9    12
+         /    /
+        7    11
+        
+        
+        
+        
+        
+        
+        
+        
+        #include <cmath>
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+#include <queue>
+using namespace std;
+struct Node{
+    int data;
+    Node* left;
+    Node* right;
+    
+};
+Node* newNode(int data)
+{
+    Node* temp = new Node();
+    temp->data = data;
+    temp->left = temp->right = NULL;
+    return temp;
+}
+
+    Node* Tree(Node* root, int data)
+{
+    
+    Node *temp = newNode(data);
+    Node *temp1 = new Node;
+    temp1 = root;
+
+   
+    if(root == NULL)
+        root = temp;
+    else
+    {
+        
+        while(temp1 != NULL)
+        {
+            if(temp1->data < data )
+            {
+                if(temp1->right == NULL)
+                {
+                    
+                    temp1->right = temp;
+                    break;
+                }
+                
+                temp1 = temp1->right;
+            }
+
+            else if(temp1->data > data)
+            {
+                if(temp1->left == NULL)
+                {
+                    temp1->left = temp;
+                    break;
+                }
+                
+                temp1 = temp1->left;
+            }
+        }
+    }
+    return root;
+}
+
+Node* Min(Node*root)
+{
+    while(root->left!=NULL)
+    {
+        root=root->left;
+    }
+    return root;
+}
+Node* Delete( Node* root,int value)
+{
+
+    if(root==NULL)
+        return root;
+    else if(value< root->data)
+    {
+        root->left= Delete(root->left,value);
+    }
+    else if(value> root->data)
+    {
+        root->right= Delete(root->right,value);
+    }
+
+    // Node deletion
+    else
+    {
+        // Leaf Node
+        if(root->left==NULL&&root->right==NULL)
+        {
+            delete root;
+            root=NULL;
+            return root;
+        }
+        //one child
+        else if(root->left==NULL)
+        {
+            struct Node* temp=root;
+            root=root->right;
+            delete temp;
+            return root;
+        }
+        else if(root->right==NULL)
+        {
+            struct Node* temp=root;
+            root=root->left;
+            delete temp;
+            return root;
+        }
+        //child
+        else
+        {
+            struct Node*temp=Min(root->right);
+            root->data=temp->data;
+            root->right=Delete(root->right,temp->data);
+        }
+    }
+    return root;
+
+}
+
+
+
+void Print( Node* root){
+       
+    if (root == NULL) return;
+ 
+    
+    queue<Node *> q;
+ 
+   
+    q.push(root);
+ 
+    while (q.empty() == false)
+    {
+        
+        int nodeCount = q.size();
+ 
+        
+        while (nodeCount > 0)
+        {
+            Node *current = q.front();
+            cout << current->data << " ";
+            q.pop();
+            if (current->left != NULL)
+                q.push(current->left);
+            if (current->right != NULL)
+                q.push(current->right);
+            nodeCount--;
+        }
+        
+    }
+}
+            
+    
+
+    
+    
+    
+    
+
+
+
+
+
+    
+    
+    
+
+
+vector<int>numbers;
+
+int main() {
+int N,K,help;
+    Node* root=new Node();
+    root=NULL;
+    cin>>N>>K;
+    for(int i=0;i<N;i++){
+        cin>>help;
+        numbers.push_back(help);
+    }
+    for(int i=0;i<N;i++){
+     root=Tree(root,numbers[i]);
+    }
+    
+    
+    sort(numbers.begin(),numbers.end());
+   root=Delete(root,  numbers[N-K]);
+    Print(root);
+    return 0;
+}
