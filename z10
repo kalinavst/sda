@@ -1,0 +1,28 @@
+function deleting a node on a given position in a linked list
+
+
+SinglyLinkedListNode* deleteNode(SinglyLinkedListNode* llist, int position) {
+    
+    
+    SinglyLinkedListNode* current=new SinglyLinkedListNode(0);
+    current=llist;
+    SinglyLinkedListNode* previous =nullptr;
+    
+    
+    if(position==0){
+        return llist->next;
+    }
+    for(int i=0;i<position;i++){
+        if(current->next!=nullptr){
+        previous=current;
+        current=current->next;}
+        else throw std::out_of_range("Out of range!");
+    }
+    
+    previous->next=current->next;
+    delete current;
+   return llist; 
+    
+    
+
+}
