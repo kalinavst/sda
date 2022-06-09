@@ -1,0 +1,110 @@
+Бележка: за тази задача не е разрешено използването на вградени алгоритми и стурктури от данни (различни от вектор)
+
+Както знаете, Скрудж е малко стиснат. Въпреки това, ако не подари на служителите си някакви подаръци за Коледа, синдикатите ще го погнат, а служителите - ще напуснат. А това не е добре за бизнеса.
+
+Асистентката на Скрудж му е подготвила списък с възможни подаръци. Той има точно K на борй скужителя. Помогнете му да разбере каква е най-малката възможна сума, която трябва да похарчи, за да може всеки служител да има подарък
+
+Input Format
+
+На първия ред на стандартния вход ще получите число N - броят възможни подаръци.
+
+На втория ред на стандартния вход ще получите N на брой цели числа Ai - цената на всеки един от възможните подаръци.
+
+На последния ред на входа ще получите число K - броят на служителите на Скрудж.
+
+Constraints
+
+ 
+
+  
+
+
+Output Format
+
+На единствения ред на стандартния изход изведете каква е минималаната сума, която Скруж трябва да плати, за да има подаръци за всичките му служители.
+
+Sample Input 0
+
+6
+3 7 -4 11 9 1
+4
+Sample Output 0
+
+7
+
+
+
+
+#include <cmath>
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+void swap(int *a, int *b){
+    int help=*a;
+    *a=*b;
+    *b=help;
+    
+    
+}
+int partition(int array[], int low, int high){
+        int pivot = array[high];                                  
+        int i = low-1;      
+        for (int j = low; j < high; j++) {
+    if (array[j] <= pivot) {
+    
+      i++;
+      
+      
+      swap(&array[i], &array[j]);
+    }
+  }
+  
+  
+  swap(&array[i + 1], &array[high]);
+  
+  
+  return (i + 1);
+}
+
+void QuickSort(int array[], int low, int high){
+    
+    
+    
+    
+    if (low < high) {
+      
+    
+    int pi = partition(array, low, high);
+
+    
+    QuickSort(array, low, pi - 1);
+
+    
+    QuickSort(array, pi + 1, high);
+  }
+}
+
+
+int main() {
+    int N;
+    cin>>N;
+    int presents[N];
+    for(int i=0;i<N;i++){
+        cin>>presents[i];
+    }
+    int K;
+    cin>>K;
+    long sum=0;
+    
+    QuickSort(presents,0,N-1);
+    for(int i=0;i<K;i++){
+        sum+=presents[i];
+    }
+    cout<<sum;
+    
+      
+    return 0;
+}
