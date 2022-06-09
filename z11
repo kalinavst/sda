@@ -1,0 +1,71 @@
+Wankata са го сложили под локдаун, и му се налага да гледа лекциите си в ИМФ онлайн. Проблемът е, че има твърде много лекции и не иска да гледа всяка. Всъщност има толкова много лекции, че е решил да гледа само лекциите, които са уникални - провежда се само 1 лекция за целия семестър. Като имате програмата от всички лекции, определете кои лекции трябва да се гледат. Тъй като самата лекция няма много значение, върнете списък от тайм-слотовете (индексите) на лекциите, които трябва да се гледат в нарастващ ред.
+
+Input Format
+
+На първият ред ще получите един string . Всеки символ от входа е отделна лекция.
+
+Constraints
+
+
+
+Output Format
+
+На един ред изведете всички индекси на които има лекция (символ), който се среща само веднъж във входа . Индексите трябва да са подредени в нарастващ ред.
+
+
+
+
+#include <cmath>
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+void diffLectures(string str)
+{
+    int n = str.length();
+ 
+    
+    int count[256];
+ 
+    
+    int index[256];
+ 
+    
+    for (int i = 0; i < 256; i++)
+    {
+        count[i] = 0;
+        index[i] = n; 
+    }
+ 
+    
+    for (int i = 0; i < n; i++)
+    {
+        
+        char x = str[i];
+        ++count[(int)x];
+ 
+        
+        if (count[(int)x] == 1 && x !=' ')
+            index[(int)x] = i;
+ 
+        
+        if (count[(int)x] == 2)
+            index[(int)x] = n;
+    }
+ 
+   
+    sort(index, index+256);
+    for (int i=0; i<256 && index[i] != n; i++)
+       cout << index[i]<<" ";
+}
+ 
+
+int main()
+{
+    string lectures ;
+    cin>>lectures;
+    diffLectures(lectures);
+    return 0;
+}
