@@ -1,0 +1,82 @@
+Пешо играе фентъзи футбол за първи път. Тъй като не е много навътре в отборите от Висшата лига, той трябва да избере кои играчи да използва за отбора си. Също така, общо играчите там са стотици, а Пешо не може да помни чак толкова имена, затова е подбрал 62ма от играчите.
+
+За него е важно да знае кой от тях колко активен е по време на мачовете. Затова, всеки път когато някой от играчите играе с топката, Пешо записва номера му. За да може да види кой колко често играе, той трябва да разполага с лесна за обработка информация. Например, последователността от числа може да бъде сортирана. Така на него ще му е много по-лесно да вземе решение кого да включи в отбора си. Помогнете на Пешо да стане шампион.
+
+Input Format
+
+На първия ред на стандартния вход ще получите число N, указващо броя номера.
+
+На втория ред на стандартния вход се прочитат N на брой положителни числа Ai. Всяко число Ai е не по-голямо от 62.
+
+Числата са закодирани по следния начин:
+
+1-10 => '0' – '9'
+
+11-36 => 'a' – 'z'
+
+37-62 => 'A' – 'Z'
+
+Constraints
+
+    
+
+Output Format
+
+На единствения ред на стандартния изход изведете сортираната последователност.
+
+Sample Input 0
+
+20
+Abcabc12345ABCDE1234
+Sample Output 0
+
+112233445abbccAABCDE
+
+
+
+
+#include <cmath>
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+
+int main() {
+    int N;
+    cin>>N;
+    int n=N+1;
+    string players;
+    
+    vector<int> decoded;
+    
+    cin>>players;
+    for(int i=0;i<N;i++)
+    {
+        if(players[i]>='0'&&players[i]<='9')
+        {
+            decoded.push_back((int)players[i]-47);
+        }
+        else if(players[i]>='A'&&players[i]<='Z')
+        {
+        decoded.push_back((int)players[i]-28);
+    }
+    else decoded.push_back((int)players[i]-86);
+    }
+    sort(decoded.begin(),decoded.end());
+    //players[N]='\0';
+ for(int i=0;i<N;i++){
+        if(decoded[i]>0&&decoded[i]<11){
+            players[i]=(char)decoded[i]+47;
+        }
+        else if(decoded[i]>36&&decoded[i]<63){
+        players[i]=(char)decoded[i]+28;
+    }
+    else players[i]=(char)decoded[i]+86;
+    }
+    
+cout<<players;   
+   
+    return 0;
+}
